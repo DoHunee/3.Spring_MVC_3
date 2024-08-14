@@ -20,6 +20,7 @@ class BasicItemController {
 
     private final ItemRepository itemRepository;
 
+    // 상품 목록 조회
     // http://localhost:8080/basic/items
     @GetMapping
     public String items(Model model) {
@@ -28,12 +29,20 @@ class BasicItemController {
         return "basic/items";
     }
 
-    // http://localhost:8080/basic/items/1
+    // 상품 상세 조회
+    // http://localhost:8080/basic/items/1  => 이렇게 하면 상품 ID가 1인 상품을 조회한다.
     @GetMapping("/{itemId}")
     public String item(@PathVariable Long itemId, Model model) {
         Item item = itemRepository.findById(itemId);
         model.addAttribute("item", item);
         return "basic/item";
+    }
+
+    // 상품 등록 처리
+    // http://localhost:8080/basic/items/add
+    @GetMapping("/add")
+    public String addForm() {
+        return "basic/addForm";
     }
 
     /**
