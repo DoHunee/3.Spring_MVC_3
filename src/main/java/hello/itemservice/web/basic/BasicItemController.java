@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import hello.itemservice.domain.item.Item;
 import hello.itemservice.domain.item.ItemRepository;
@@ -88,14 +89,27 @@ class BasicItemController {
         return "basic/item";
     }
 
-     // 상품 등록 처리 5
-     // PRG - Post/Redirect/Get
-    @PostMapping("/add")
+    // 상품 등록 처리 5
+    // PRG - Post/Redirect/Get
+    // 상세화면으로 리다이렉트
+    // @PostMapping("/add")
     public String addItemV5(Item item) {
         itemRepository.save(item);
         return "redirect:/basic/items/" + item.getId();
     }
 
+    // 상품 등록 처리 6
+    // RedirectAttributes
+    // 저장완료 뜨게!
+    @PostMapping("/add")
+    public String addItemV6(Item item, RedirectAttributes redirectAttributes) {
+        Item savedItem = itemRepository.save(item);
+        redirectAttributes.addAttribute("itemId", savedItem.getId());
+        redirectAttributes.addAttribute("status", true);
+        return "redirect:/basic/items/{itemId}";
+    }
+    
+    
     // 상품 수정 폼
     // http://localhost:8080/basic/items/1/edit
     @GetMapping("/{itemId}/edit")
