@@ -82,10 +82,18 @@ class BasicItemController {
     // 상품 등록 처리 4
     // @ModelAttribute 자체 생략 가능
     // model.addAttribute(item) 자동 추가
-    @PostMapping("/add")
+    // @PostMapping("/add")
     public String addItemV4(Item item) {
         itemRepository.save(item);
         return "basic/item";
+    }
+
+     // 상품 등록 처리 5
+     // PRG - Post/Redirect/Get
+    @PostMapping("/add")
+    public String addItemV5(Item item) {
+        itemRepository.save(item);
+        return "redirect:/basic/items/" + item.getId();
     }
 
     // 상품 수정 폼
